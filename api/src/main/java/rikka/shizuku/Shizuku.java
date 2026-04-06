@@ -912,11 +912,11 @@ public class Shizuku {
     }
     
     private void exchangeServiceAndBinder() {
-        Service tempS = service;
+        IShizukuService tempS = service;
         service = freezeService;
         freezeService = tempS;
         
-        Binder tempB = binder;
+        IBinder tempB = binder;
         binder = freezeBinder;
         freezeBinder = tempB;
     }
