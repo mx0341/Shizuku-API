@@ -898,6 +898,24 @@ public class Shizuku {
             throw rethrowAsRuntimeException(e);
         }
     }
+    
+    @RestrictTo(LIBRARY_GROUP_PREFIX)
+    public static void freezeService() {
+        try {
+            requireService().freezeService();
+        } catch (RemoteException e) {
+            throw rethrowAsRuntimeException(e);
+        }
+    }
+    
+    @RestrictTo(LIBRARY_GROUP_PREFIX)
+    public static void unfreezeService() {
+        try {
+            requireService().unfreezeService();
+        } catch (RemoteException e) {
+            throw rethrowAsRuntimeException(e);
+        }
+    }
 
     @RestrictTo(LIBRARY_GROUP_PREFIX)
     public static void attachUserService(@NonNull IBinder binder, @NonNull Bundle options) {
