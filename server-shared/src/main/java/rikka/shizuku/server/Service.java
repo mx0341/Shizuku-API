@@ -353,14 +353,14 @@ public abstract class Service<
     }
     
     @Override
-    public void freeze() throws RemoteException {
+    public void freezeService() throws RemoteException {
         enforceCallingPermission(); // 安全检查
         sIsFrozen = true;
         //Log.d("ShizukuService", "Service frozen");
     }
 
     @Override
-    public void unfreeze() throws RemoteException {
+    public void unfreezeService() throws RemoteException {
         enforceCallingPermission();
         sIsFrozen = false;
         //Log.d("ShizukuService", "Service unfrozen");
