@@ -371,7 +371,7 @@ public abstract class Service<
         int callingUid = Binder.getCallingUid();
 
         // 允许 Shell (UID 2000)、系统 (UID 1000) 和 自身 App 调用
-        if (callingUid != 2000 && callingUid != 1000 && callingUid != Process.myUid()) {
+        if (callingUid != 2000 && callingUid != 1000 && callingUid != OsUtils.getPid()) {
         throw new SecurityException("Permission denied. UID: " + callingUid);
         }
     }
