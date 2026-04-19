@@ -34,8 +34,6 @@ import moe.shizuku.server.IShizukuApplication;
 import moe.shizuku.server.IShizukuService;
 
 public class Shizuku {
-    private static IBinder freezeBinder;
-    private static IShizukuService freezeService;
 
     private static IBinder binder;
     private static IShizukuService service;
@@ -896,35 +894,6 @@ public class Shizuku {
     public static void exit() {
         try {
             requireService().exit();
-        } catch (RemoteException e) {
-            throw rethrowAsRuntimeException(e);
-        }
-    }
-    
-    @RestrictTo(LIBRARY_GROUP_PREFIX)
-    public static void freezeService() {
-        try {
-            requireService().freezeService();
-            
-        } catch (RemoteException e) {
-            throw rethrowAsRuntimeException(e);
-        }
-    }
-    
-    private void exchangeServiceAndBinder() {
-        IShizukuService tempS = service;
-        service = freezeService;
-        freezeService = tempS;
-        
-        IBinder tempB = binder;
-        binder = freezeBinder;
-        freezeBinder = tempB;
-    }
-    
-    @RestrictTo(LIBRARY_GROUP_PREFIX)
-    public static void unfreezeService() {
-        try {
-            requireService().unfreezeService();
         } catch (RemoteException e) {
             throw rethrowAsRuntimeException(e);
         }

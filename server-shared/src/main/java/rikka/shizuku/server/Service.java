@@ -39,8 +39,6 @@ public abstract class Service<
     private final ConfigMgr configManager;
     private final ClientMgr clientManager;
     private final RishService rishService;
-    
-    private static volatile boolean sIsFrozen = false;
 
     protected static final Logger LOGGER = new Logger("Service");
 
@@ -80,8 +78,6 @@ public abstract class Service<
     public boolean checkCallerManagerPermission(String func, int callingUid, int callingPid) {
         return false;
     }
-    
-    private boolean hidden;
 
     public final void enforceManagerPermission(String func) {
         int callingUid = Binder.getCallingUid();
@@ -138,9 +134,6 @@ public abstract class Service<
     }
 
     public final void transactRemote(Parcel data, Parcel reply, int flags) throws RemoteException {
-        if (sIsFrozen) {
-            throw new RemoteException("Service is temporarily frozen");
-        }
         enforceCallingPermission("transactRemote");
 
         IBinder targetBinder = data.readStrongBinder();
@@ -350,29 +343,5 @@ public abstract class Service<
             return true;
         }
         return super.onTransact(code, data, reply, flags);
-    }
-    
-    @Override
-    public void freezeService() throws RemoteException {
-        enforceCallingPermission(); // 安全检查
-        sIsFrozen = true;
-        //Log.d("ShizukuService", "Service frozen");
-    }
-
-    @Override
-    public void unfreezeService() throws RemoteException {
-        enforceCallingPermission();
-        sIsFrozen = false;
-        //Log.d("ShizukuService", "Service unfrozen");
-    }
-
-    private void enforceCallingPermission() throws SecurityException {
-        // 检查调用方的 UID
-        int callingUid = Binder.getCallingUid();
-
-        // 允许 Shell (UID 2000)、系统 (UID 1000) 和 自身 App 调用
-        if (callingUid != 2000 && callingUid != 1000 && callingUid != OsUtils.getPid()) {
-        throw new SecurityException("Permission denied. UID: " + callingUid);
-        }
     }
 }

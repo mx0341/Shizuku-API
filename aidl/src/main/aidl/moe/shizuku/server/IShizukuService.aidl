@@ -45,8 +45,4 @@ interface IShizukuService {
     int getFlagsForUid(int uid, int mask) = 105;
 
     void updateFlagsForUid(int uid, int mask, int value) = 106;
-    
-    void freezeService() = 107;
-    
-    void unfreezeService() = 108;
  }
